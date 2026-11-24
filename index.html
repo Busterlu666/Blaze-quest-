@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#160b0b"><meta name="description" content="Blaze Quest — fitness, quests, XP and dungeons.">
+<link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>Blaze Quest</title>
+<style>
+:root{--bg:#100909;--panel:#201111;--panel2:#2c1713;--line:#593022;--orange:#ff7a18;--gold:#ffc45c;--red:#e94326;--text:#fff3e8;--muted:#c9a99a;--green:#7cdb9b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -15%,#6c260f 0,#210e0c 38%,var(--bg) 75%);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh;padding-bottom:85px}
+header{padding:22px 18px 14px;text-align:center;border-bottom:1px solid #542817;background:#170b0be8;position:sticky;top:0;z-index:5;backdrop-filter:blur(12px)}
+.logo{font-size:28px;font-weight:950;letter-spacing:2px;color:var(--gold);text-shadow:0 0 18px #ff5a19}.tag{color:var(--muted);font-size:12px;letter-spacing:2px;text-transform:uppercase}
+main{max-width:760px;margin:auto;padding:18px 14px}.hero{border:1px solid #82401e;background:linear-gradient(135deg,#3b160f,#1c1010 65%);border-radius:20px;padding:20px;box-shadow:0 10px 35px #0008;position:relative;overflow:hidden}.hero:after{content:"🔥";position:absolute;right:12px;top:4px;font-size:82px;opacity:.18}
+h1,h2,h3,p{margin-top:0}h1{font-size:25px;margin-bottom:4px}h2{font-size:19px;color:var(--gold);margin-bottom:12px}h3{font-size:16px;margin-bottom:5px}.muted,.small{color:var(--muted)}.small{font-size:12px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:16px}.stat{background:#160d0de0;border:1px solid var(--line);padding:10px;border-radius:13px}.stat b{display:block;font-size:21px;color:var(--gold)}
+.tabs{display:flex;gap:7px;overflow:auto;padding:13px 0;position:sticky;top:84px;background:#100909ed;z-index:4}.tabs button{white-space:nowrap;flex:1;min-width:max-content}
+button,.btn{border:1px solid #9a4b25;background:linear-gradient(180deg,#ff8a27,#c83d17);color:#fff;font-weight:750;padding:11px 14px;border-radius:12px;cursor:pointer;font-size:14px}button:disabled{opacity:.4;cursor:not-allowed}.secondary{background:#2a1714;border-color:#65402f;color:var(--text)}.active{outline:2px solid var(--gold)}
+.card{background:linear-gradient(145deg,#281613,#1a1010);border:1px solid var(--line);border-radius:17px;padding:16px;margin:12px 0;box-shadow:0 7px 20px #0004}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.bar{height:10px;background:#100909;border-radius:20px;overflow:hidden;margin:8px 0}.bar span{display:block;height:100%;background:linear-gradient(90deg,#e94326,#ffbd4a);border-radius:20px}
+.task{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #4a2b21}.task:last-child{border:0}.task .grow{flex:1}.pill{font-size:11px;border:1px solid #79442d;color:var(--gold);padding:3px 8px;border-radius:30px;white-space:nowrap}
+input,select,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #68402f;background:#120b0b;color:var(--text);margin:5px 0 13px;font:inherit}label{font-size:13px;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.item{background:#170d0d;border:1px solid #593022;border-radius:13px;padding:13px}.item .emoji{font-size:30px}.item button{width:100%;margin-top:9px}.hidden{display:none!important}.notice{padding:10px 12px;border-radius:10px;background:#352017;color:#ffd49c;font-size:13px}.good{color:var(--green)}.bad{color:#ff8e75}
+nav.bottom{position:fixed;bottom:0;left:0;right:0;background:#170b0bf2;border-top:1px solid #593022;padding:9px max(8px,env(safe-area-inset-right)) calc(9px + env(safe-area-inset-bottom));display:flex;justify-content:center;gap:6px;z-index:8}nav.bottom button{flex:1;max-width:145px;padding:10px 5px;font-size:12px}
+.monster{font-size:70px;text-align:center;filter:drop-shadow(0 0 18px #f60)}.hp{height:12px;background:#100909;border-radius:20px;overflow:hidden}.hp span{display:block;height:100%;background:#e94326}.chat{height:190px;overflow:auto;background:#130b0b;border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px}.msg{margin:7px 0}.msg b{color:var(--gold)}
+@media(min-width:650px){main{padding:24px}.tabs{top:85px}.hero{padding:26px}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style></head>
+<body>
+<header><div class="logo">🔥 BLAZE QUEST</div><div class="tag">Train • Quest • Conquer</div></header>
+<main>
+<section class="hero"><h1 id="greeting">Welcome, Adventurer</h1><div class="muted">Your next quest starts here.</div><div class="stats"><div class="stat"><span class="small">LEVEL</span><b id="level">1</b></div><div class="stat"><span class="small">TOTAL XP</span><b id="xp">0</b></div><div class="stat"><span class="small">COINS</span><b id="coins">0</b></div></div><div class="small" style="margin-top:12px">Level progress <span id="progressText">0 / 100 XP</span></div><div class="bar"><span id="progress" style="width:0%"></span></div></section>
+<div class="tabs">
+<button class="secondary active" data-tab="home">🏠 Home</button><button class="secondary" data-tab="fitness">💪 Fitness</button><button class="secondary" data-tab="shop">🛒 Shop</button><button class="secondary" data-tab="dungeon">⚔️ Dungeon</button><button class="secondary" data-tab="assistant">🔥 Blaze AI</button>
+</div>
+<section id="home" class="page">
+<div class="card"><h2>Today's quests</h2><div id="homeTasks"></div><p class="small">Earn XP by completing activities. Rest and recovery count as part of a balanced routine.</p></div>
+<div class="card"><h2>Your adventure</h2><p id="homeSummary" class="muted">Complete your fitness setup to create your first quests.</p><button onclick="showTab('fitness')">Set up fitness plan</button></div>
+<div class="card"><h2>Quick tip</h2><p class="muted">Consistency matters more than intensity. Take breaks, drink water and stop if something hurts or you feel unwell.</p></div>
+</section>
+<section id="fitness" class="page hidden">
+<div class="card" id="assessment"><h2>🔥 Fitness check-in</h2><p class="muted">This is a comfort-and-experience check, not a test of your body. Choose what feels true today.</p>
+<label>How active have you been recently?</label><select id="activity"><option value="new">I'm just getting started</option><option value="some">I do some activity each week</option><option value="regular">I'm active most weeks</option></select>
+<label>How comfortable do you feel with gentle exercise?</label><select id="comfort"><option value="easy">I'd prefer easy activities</option><option value="medium">I'm comfortable with moderate activities</option><option value="high">I enjoy varied activities</option></select>
+<label>What do you enjoy?</label><select id="interest"><option value="mix">A bit of everything</option><option value="walk">Walking and outdoor activities</option><option value="strength">Bodyweight strength and balance</option><option value="game">Fun movement and sports</option></select>
+<label>How much time would you like to spend on an activity?</label><select id="duration"><option value="10">About 10 minutes</option><option value="15">About 15 minutes</option><option value="20">About 20 minutes</option><option value="30">About 30 minutes</option></select>
+<button onclick="makePlan()">Create my plan</button></div>
+<div class="card"><div class="row"><h2>Your activity plan</h2><button class="secondary" onclick="makePlan()">Refresh plan</button></div><div id="fitnessLevel" class="notice">Complete the check-in to create a plan.</div><div id="planTasks"></div><p class="small">Plans are general wellbeing suggestions, not medical advice. Keep activities comfortable, include rest days and ask a trusted adult or qualified professional if you're unsure what is suitable.</p></div>
+</section>
+<section id="shop" class="page hidden"><div class="card"><div class="row"><h2>🔥 Ember Shop</h2><span class="pill"><span id="shopCoins">0</span> coins</span></div><p class="muted">Spend coins earned from quests on adventure cosmetics and gear.</p><div id="shopItems" class="grid"></div></div><div class="card"><h2>Your inventory</h2><div id="inventory" class="muted">No items yet.</div></div></section>
+<section id="dungeon" class="page hidden"><div class="card"><h2>🌋 The Cinder Dungeon</h2><p class="muted">A turn-based fantasy battle. Your hero and monsters are fictional. No real-world fighting skills are involved.</p><div class="monster" id="monsterArt">🐲</div><h3 id="monsterName" style="text-align:center">Cinder Dragon</h3><div class="row"><span class="small">Monster HP</span><b id="monsterHpText">40 / 40</b></div><div class="hp"><span id="monsterHp" style="width:100%"></span></div><div class="row" style="margin-top:12px"><span>🛡️ Your energy</span><b id="heroHpText">30 / 30</b></div><div class="hp"><span id="heroHp" style="width:100%;background:#d98c36"></span></div><p id="battleLog" class="notice" style="margin-top:14px">Enter the dungeon when you're ready.</p><div class="grid"><button onclick="startBattle()">Enter dungeon</button><button class="secondary" onclick="heroTurn('strike')" id="strikeBtn" disabled>⚔️ Ember strike</button><button class="secondary" onclick="heroTurn('guard')" id="guardBtn" disabled>🛡️ Guard</button><button class="secondary" onclick="heroTurn('spark')" id="sparkBtn" disabled>✨ Fire spark</button></div><p class="small">Win a battle to earn 35 XP and 20 coins. Take a break whenever you want.</p></div></section>
+<section id="assistant" class="page hidden"><div class="card"><h2>🔥 Blaze AI Assistant</h2><p class="muted">Your in-game guide. This starter version uses built-in responses and works offline; it does not connect to an external AI service.</p><div class="chat" id="chat"><div class="msg"><b>Blaze:</b> Welcome to the Quest! Ask me about your plan, XP, shop or dungeon.</div></div><div class="row"><input id="chatInput" placeholder="Ask Blaze something…" style="margin:0"><button onclick="sendChat()">Send</button></div><div class="small" style="margin-top:8px">Try: “How do I earn XP?”</div></div></section>
+</main>
+<nav class="bottom"><button class="secondary" onclick="showTab('home')">🏠 Home</button><button class="secondary" onclick="showTab('fitness')">💪 Plan</button><button class="secondary" onclick="showTab('shop')">🛒 Shop</button><button class="secondary" onclick="showTab('dungeon')">⚔️ Dungeon</button><button class="secondary" onclick="showTab('assistant')">🔥 AI</button></nav>
+<script>
+const defaults={xp:0,coins:0,level:1,plan:null,done:[],inventory:[],battle:null,heroHp:30,monsterHp:40,monster:0};
+let state;try{state={...defaults,...JSON.parse(localStorage.getItem('blazeQuestSave')||'{}')}}catch(e){state={...defaults}}
+const $=id=>document.getElementById(id);
+function save(){localStorage.setItem('blazeQuestSave',JSON.stringify(state));render()}
+function levelFromXP(x){return Math.floor(x/100)+1}
+function addReward(xp,coins){state.xp+=xp;state.coins+=coins;state.level=levelFromXP(state.xp);save()}
+function render(){
+$('level').textContent=state.level;$('xp').textContent=state.xp;$('coins').textContent=state.coins;$('shopCoins').textContent=state.coins;
+let into=state.xp%100;$('progressText').textContent=into+' / 100 XP';$('progress').style.width=into+'%';
+let tasks=state.plan||[];$('homeTasks').innerHTML=tasks.length?tasks.map((t,i)=>taskHTML(t,i)).join(''):'<p class="muted">Your quests will appear after your fitness check-in.</p>';
+$('planTasks').innerHTML=tasks.length?tasks.map((t,i)=>taskHTML(t,i)).join(''):'<p class="muted">No plan yet.</p>';
+$('homeSummary').textContent=state.plan?'Your plan is ready. Complete activities to earn XP and coins.':'Complete your fitness check-in to generate a balanced activity plan.';
+$('fitnessLevel').textContent=state.plan?'Your current activity style: '+state.planLevel+'. Your plan can be refreshed whenever you want.':'Complete the check-in to create a plan.';
+renderShop();renderBattle();
+}
+function taskHTML(t,i){let done=state.done.includes(t.id);return `<div class="task"><div class="grow"><b>${t.name}</b><div class="small">${t.desc}</div></div><span class="pill">+${t.xp} XP</span><button ${done?'disabled':''} onclick="completeTask('${t.id}')">${done?'Done ✓':'Complete'}</button></div>`}
+function makePlan(){
+let a=$('activity').value,c=$('comfort').value,interest=$('interest').value,d=+$('duration').value;
+let tier=(a==='new'||c==='easy')?'Gentle starter':(a==='regular'&&c==='high'?'Active explorer':'Steady adventurer');
+let bank={
+walk:[['Easy walk','Walk at a comfortable pace and enjoy the fresh air.',15],['Movement break','Try a few minutes of relaxed stretching.',10],['Explore outside','Take a relaxed walk somewhere you enjoy.',15]],
+strength:[['Balance practice','Try standing balance near a sturdy support, switching sides.',10],['Bodyweight basics','Try comfortable sit-to-stands and wall push-ups, with rests.',15],['Gentle stretch','Move through comfortable shoulder, arm and leg stretches.',10]],
+game:[['Fun movement','Choose a fun activity such as dancing or a casual ball game.',15],['Coordination quest','Try gentle stepping patterns or an easy movement game.',10],['Fresh-air break','Take a relaxed walk or play a favourite outdoor game.',15]],
+mix:[['Comfortable walk','Walk at a pace that lets you talk easily.',15],['Strength and balance','Try wall push-ups and supported balance, taking breaks.',15],['Stretch and reset','Do gentle, comfortable stretches and relax.',10]]
+};
+let list=bank[interest];let count=3;state.plan=list.slice(0,count).map((v,i)=>({id:'q'+Date.now()+i,name:v[0],desc:v[1]+' Suggested time: '+Math.min(v[2],d)+' min.',xp:15}));
+if(tier==='Gentle starter')state.plan=state.plan.map(t=>({...t,xp:15}));
+state.planLevel=tier;state.done=[];save();
+}
+function completeTask(id){if(state.done.includes(id))return;let t=state.plan.find(x=>x.id===id);if(!t)return;state.done.push(id);addReward(t.xp,Math.round(t.xp/3));}
+const items=[['🔥','Flame Crown','A fiery cosmetic crown.',50],['🦊','Ember Fox','A loyal little dungeon companion.',75],['🗡️','Ruby Blade','A legendary-looking display sword.',100],['🛡️','Magma Shield','A shield for your hero profile.',120],['🐉','Mini Dragon','A tiny fire-breathing pet.',180],['👑','Cinder Royalty','A glowing royal title.',250]];
+function renderShop(){$('shopItems').innerHTML=items.map((it,i)=>{let owned=state.inventory.includes(it[1]);return `<div class="item"><div class="emoji">${it[0]}</div><b>${it[1]}</b><div class="small">${it[2]}</div><div class="pill">${it[3]} coins</div><button ${owned||state.coins<it[3]?'disabled':''} onclick="buy(${i})">${owned?'Owned ✓':'Buy item'}</button></div>`}).join('');$('inventory').textContent=state.inventory.length?state.inventory.join(' • '):'No items yet.'}
+function buy(i){let it=items[i];if(state.coins<it[3]||state.inventory.includes(it[1]))return;state.coins-=it[3];state.inventory.push(it[1]);save()}
+const monsters=[['🐲','Cinder Dragon',40],['👹','Ash Ogre',55],['🦇','Lava Bat',65],['🐺','Ember Wolf',80]];
+function renderBattle(){let m=monsters[state.monster%monsters.length];$('monsterArt').textContent=m[0];$('monsterName').textContent=m[1];$('monsterHpText').textContent=state.monsterHp+' / '+m[2];$('monsterHp').style.width=Math.max(0,state.monsterHp/m[2]*100)+'%';$('heroHpText').textContent=state.heroHp+' / 30';$('heroHp').style.width=Math.max(0,state.heroHp/30*100)+'%';let on=!!state.battle&&state.heroHp>0&&state.monsterHp>0;['strikeBtn','guardBtn','sparkBtn'].forEach(id=>$(id).disabled=!on)}
+function startBattle(){let m=monsters[state.monster%monsters.length];state.battle=true;state.heroHp=30;state.monsterHp=m[2];$('battleLog').textContent='A wild '+m[1]+' appears! Choose your move.';save()}
+function heroTurn(move){if(!state.battle||state.heroHp<=0||state.monsterHp<=0)return;let damage=move==='strike'?12:move==='spark'?17:0;let text=move==='guard'?'You guard and reduce the next hit.':'You use '+(move==='strike'?'Ember Strike':'Fire Spark')+' for '+damage+' damage.';state.monsterHp=Math.max(0,state.monsterHp-damage);
+if(state.monsterHp===0){state.battle=false;state.monster++;state.xp+=35;state.coins+=20;state.level=levelFromXP(state.xp);$('battleLog').textContent='Victory! +35 XP and +20 coins. The next dungeon creature awaits.';save();return}
+let hit=move==='guard'?3:7;state.heroHp=Math.max(0,state.heroHp-hit);if(state.heroHp===0){state.battle=false;text+=' The monster wins this round. Rest and try again when ready.'}else{text+=' The monster counters for '+hit+' energy.'}
+$('battleLog').textContent=text;save()}
+function sendChat(){let v=$('chatInput').value.trim();if(!v)return;let chat=$('chat');chat.innerHTML+=`<div class="msg"><b>You:</b> ${escapeHTML(v)}</div>`;let s=v.toLowerCase(),reply=s.includes('xp')?'Complete one of your activity quests to earn XP. Dungeon victories also award XP!':s.includes('shop')?'Visit the Ember Shop and spend your coins on pets, cosmetics and gear.':s.includes('dungeon')?'Open the Cinder Dungeon, enter a turn-based battle and choose Ember Strike, Guard or Fire Spark.':s.includes('plan')||s.includes('fitness')?'Open Fitness, complete the comfort check-in and I will create a gentle activity plan. You can refresh it any time.':s.includes('level')?'You gain one level for every 100 XP. Keep completing quests at a comfortable pace.':'I can help with your fitness plan, XP, levels, shop and dungeon. What would you like to explore?';chat.innerHTML+=`<div class="msg"><b>Blaze:</b> ${reply}</div>`;chat.scrollTop=chat.scrollHeight;$('chatInput').value=''}
+function escapeHTML(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function showTab(tab){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('hidden',p.id!==tab));document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+$('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat()});
+render();
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script></body></html>

@@ -1,0 +1,16 @@
+{
+  "name": "Blaze Quest",
+  "short_name": "Blaze Quest",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#100909",
+  "theme_color": "#160b0b",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
